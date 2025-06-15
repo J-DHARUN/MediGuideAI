@@ -11,9 +11,9 @@ function uploadImage() {
   loader.style.display = "block";
 
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("file", file);  // 🔁 Make sure the Flask backend uses `request.files['file']`
 
-  fetch("http://localhost:5000/parse", {
+  fetch("https://mediguide-backend.onrender.com/process", {
     method: "POST",
     body: formData
   })
@@ -28,25 +28,20 @@ function uploadImage() {
           output.innerHTML += `
             <div class="drug-block">
               <h3>${entry.drug}</h3>
-              <p><strong>Strength:</strong> ${entry.strength}</p>
-              <p><strong>Frequency:</strong> ${entry.frequency}</p>
-              <p><strong>Duration:</strong> ${entry.duration}</p>
+              <p><strong>Strength:</strong> ${entry.strength || "N/A"}</p>
+              <p><strong>Frequency:</strong> ${entry.frequency || "N/A"}</p>
+              <p><strong>Duration:</strong> ${entry.duration || "N/A"}</p>
               <p><strong>Instructions:</strong> ${entry.instructions}</p>
             </div>
           `;
         });
 
-        // ✅ Make output visible
         output.classList.add("visible");
-
-        // ✅ Scroll to results smoothly
-        output.scrollIntoView({
-          behavior: "smooth"
-        });
+        output.scrollIntoView({ behavior: "smooth" });
       }
     })
     .catch(err => {
       loader.style.display = "none";
-      alert("❌ Could not connect to the server.");
+      alert("❌ Could not connect to the backend. It might be waking up. Please try again in a few seconds.");
     });
 }
