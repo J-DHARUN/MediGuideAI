@@ -14,10 +14,12 @@
       <p class="subtitle">Your AI-powered assistant for decoding medical prescriptions.</p>
 
       <div class="upload-box">
-        <input type="file" id="fileInput" style="display: none" />
-        <label for="fileInput" class="custom-file-btn">📁 Choose Prescription</label>
-        <button onclick="uploadImage()">Analyze Prescription</button>
-        <div class="loader" id="loading" style="display:none;"></div>
+        <form onsubmit="event.preventDefault(); uploadImage();">
+          <input type="file" id="fileInput" style="display: none" />
+          <label for="fileInput" class="custom-file-btn">📁 Choose Prescription</label>
+          <button type="submit">Analyze Prescription</button>
+          <div class="loader" id="loading" style="display:none;">⏳ Processing...</div>
+        </form>
       </div>
     </div>
   </div>
